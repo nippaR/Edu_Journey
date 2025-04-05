@@ -3,22 +3,21 @@ import { useNavigate } from 'react-router-dom';
 
 function Profile() {
   const navigate = useNavigate();
+  // Retrieve the authenticated user's email from localStorage (set during login)
+  const userEmail = localStorage.getItem("userEmail") || "default@example.com";
   
-  // Replace this with the authenticated user's email; here, we hardcode for demonstration.
-  const userEmail = "melody@gmail.com"; 
-  
-  // State to store user profile details
+  // State to store user profile details and any error messages
   const [profile, setProfile] = useState(null);
   const [message, setMessage] = useState("");
 
-  // Fetch user profile details from the backend, including credentials (cookies)
+  // Fetch user profile details from the backend using the correct email
   useEffect(() => {
     fetch(`http://localhost:8081/api/users/profile?email=${userEmail}`, {
       credentials: 'include'
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error("Profile not found");
+          throw new Error("Profile not found, status: " + response.status);
         }
         return response.json();
       })
@@ -36,7 +35,7 @@ function Profile() {
   const handleLogout = () => {
     fetch("http://localhost:8081/logout", {
       method: "POST",
-      credentials: "include" // Ensures cookies are sent if session-based authentication is used
+      credentials: "include"
     })
       .then(response => {
         if (response.ok) {
@@ -52,6 +51,7 @@ function Profile() {
       });
   };
 
+  // Display a loading message while the profile is being fetched
   if (!profile) {
     return <div style={{ textAlign: "center", padding: "2rem" }}>Loading profile...</div>;
   }
@@ -70,17 +70,15 @@ function Profile() {
             style={{ width: "100px", height: "100px", borderRadius: "50%" }}
           />
         </div>
-        {/* Email */}
+        {/* Displaying user details */}
         <div style={{ marginBottom: "0.5rem" }}>
           <strong>Email:</strong> {profile.email}
         </div>
-        {/* Username */}
         <div style={{ marginBottom: "0.5rem" }}>
           <strong>Username:</strong> {profile.username}
         </div>
-        {/* Password (masked) */}
         <div style={{ marginBottom: "0.5rem" }}>
-          <strong>Password:</strong> {profile.password ? "********" : "Not available"}
+          <strong>Password:</strong> {profile.password}
         </div>
       </div>
       

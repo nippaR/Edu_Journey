@@ -22,6 +22,7 @@ public class UserController {
     // Endpoint to get the current user's profile (using email as identifier)
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@RequestParam String email) {
+        System.out.println("Received profile request for email: " + email);
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             System.out.println("Found user: " + userOpt.get());

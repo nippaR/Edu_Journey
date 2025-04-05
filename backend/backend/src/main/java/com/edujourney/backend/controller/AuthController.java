@@ -19,38 +19,35 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
-    // For hashing passwords. In production, consider injecting this bean from SecurityConfig.
+    // For hashing passwords. In production, inject this bean from SecurityConfig.
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // Signup endpoint
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody User user) {
-        // Check if username or email already exists
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
         }
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
-        // Hash the password before saving
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        
         User savedUser = userRepository.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    // Login endpoint (for simplicity, returns a JSON message; later you can generate a JWT token)
+    // Login endpoint (returns a JSON message; later you can generate a JWT token)
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User loginRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(loginRequest.getUsername());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            // Compare the raw password with the hashed password in the database
             if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                // Create a JSON response with a message
                 Map<String, String> response = new HashMap<>();
-                response.put("message", "Login successful! (JWT token to be implemented)");
+                response.put("message", "Login successful!");
+                // Return the actual email from the user object
+                response.put("email", user.getEmail());
                 return ResponseEntity.ok(response);
             }
         }
