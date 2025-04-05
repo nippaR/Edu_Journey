@@ -26,7 +26,7 @@ function Login() {
         setMessage('Login successful!');
         // Store the email (or username) for later use in the profile page.
         localStorage.setItem("userEmail", Date.username);
-        navigate('/'); // Navigate to home page on success.
+        navigate('/home'); // Navigate to home page on success.
       })
       .catch(err => setMessage('Error: ' + err.message));
   };
