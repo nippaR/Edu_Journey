@@ -1,25 +1,40 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route,BrowserRouter,useLocation } from 'react-router-dom';
 import Header from './components/Header';
-import Posts from './components/Posts';  
-import Signup from './components/Signup';  
-import Login from './components/Login';    
+import Posts from './components/Posts';
+import Signup from './components/Signup';
+import Login from './components/Login';
 import Profile from './components/Profile';
+
+
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+  <BrowserRouter>
+    <MainContent/>
+  </BrowserRouter>
+  );
+}
+
+function MainContent() {
+  
+  const location = useLocation();
+
+  const noHeaderFooterPaths = ['/','/login'];
+  const isNoHeaderFooterPage = noHeaderFooterPaths.includes(location.pathname);
+
+  return (
+      <>
+        {!isNoHeaderFooterPage && <Header/>}
         {/* The Header component is always visible */}
-        <Header />
         <Routes>
-          <Route path="/" element={<Posts />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/home" element={<Posts />} />
+          <Route path="/" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-      </div>
-    </Router>
+      </>
+    
   );
 }
 

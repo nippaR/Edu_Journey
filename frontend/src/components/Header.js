@@ -18,16 +18,16 @@ function Header() {
     width: '40px',
     height: '40px',
     borderRadius: '50%',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginRight: '1rem'
   };
 
   return (
     <header style={headerStyle}>
       <h1>Edu Journey</h1>
       <nav style={navStyle}>
-        <Link to="/">Home</Link> |{' '}
-        <Link to="/signup">Signup</Link> |{' '}
-        <Link to="/login">Login</Link> |{' '}
+        <Link to="/home">Home</Link> {' '}
+        {/* <Link to="/signup">Signup</Link> |{' '}*/}
         <Link to="/profile">
           <img 
             src="https://via.placeholder.com/40" 
@@ -35,6 +35,7 @@ function Header() {
             style={profileIconStyle} 
           />
         </Link>
+        <Link to="/login">Logout</Link> {' '}
       </nav>
     </header>
   );
