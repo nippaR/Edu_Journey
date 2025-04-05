@@ -10,16 +10,20 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
 
-    // For traditional username/password authentication
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
     
-    // For OAuth2 login (e.g., Google)
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
     
@@ -28,7 +32,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     
-    // Configure our authentication provider to load user details from our database
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -37,7 +40,6 @@ public class SecurityConfig {
         return authProvider;
     }
     
-    // Build the AuthenticationManager using our custom authentication provider
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -45,32 +47,42 @@ public class SecurityConfig {
                    .build();
     }
     
+    // Create a dummy client registration so the repository isn't empty.
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        ClientRegistration dummyRegistration = ClientRegistration.withRegistrationId("dummy")
+            .clientId("dummy")
+            .clientSecret("dummy")
+            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
+            .authorizationUri("https://dummy.authorization.uri")
+            .tokenUri("https://dummy.token.uri")
+            .userInfoUri("https://dummy.userinfo.uri")
+            .userNameAttributeName("id")
+            .clientName("Dummy Client")
+            .build();
+        
+        return new InMemoryClientRegistrationRepository(Arrays.asList(dummyRegistration));
+    }
+    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
-        // Attach our custom AuthenticationManager so that our REST login endpoint is used
         http.authenticationManager(authManager);
         
-        http
-            .csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Permit access to signup, login, and logout endpoints
                 .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout").permitAll()
-                // All other endpoints require authentication
                 .anyRequest().authenticated()
             )
-            // Disable default form login so that your custom REST login endpoint is used
             .formLogin(form -> form.disable())
-            // Enable OAuth2 login for Google sign-in
             .oauth2Login(oauth2 -> oauth2
                 .userInfoEndpoint(userInfo -> 
                     userInfo.userService(customOAuth2UserService)
                 )
                 .successHandler((request, response, authentication) -> {
-                    // After successful OAuth2 login, redirect to your React app's home page
                     response.sendRedirect("http://localhost:3000/");
                 })
             )
-            // Configure logout explicitly: use /logout as the URL and permit all
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .permitAll()
