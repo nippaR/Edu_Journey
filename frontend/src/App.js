@@ -5,6 +5,7 @@ import Posts from './components/Posts';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Profile from './components/Profile';
+import JobDash from './components/Job/Job-Dash';
 
 
 
@@ -32,6 +33,7 @@ function MainContent() {
           <Route path="/" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/jobdash" element={<JobDash />} />
         </Routes>
       </>
     
