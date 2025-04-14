@@ -6,7 +6,11 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import JobDash from './components/Job/Job-Dash';
+import JobCreate from './components/Job/jobCreate';
+import JobCreate2 from './components/Job/JobCreate2';
+import JobCreate3 from './components/Job/JobCreate3';
 import CourseDash from './components/Course/CourseDash';
+
 
 
 
@@ -36,6 +40,9 @@ function MainContent() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/jobdash" element={<JobDash />} />
           <Route path="/coursedash" element={<CourseDash />} />
+          <Route path="/jobCreate" element={<JobCreate />} />
+          <Route path="/jobCreate2" element={<JobCreate2 />} />
+          <Route path="/jobCreate3" element={<JobCreate3 />} />
         </Routes>
       </>
     

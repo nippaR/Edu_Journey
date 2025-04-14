@@ -39,6 +39,7 @@ function Header() {
           />
         </Link>
         <Link to="/jobdash" style={linkStyle}>Jobs</Link>
+        <Link to="/coursedash" style={linkStyle}>Courses</Link>
         <Link to="/login" style={linkStyle}>Logout</Link>
       </nav>
     </header>
