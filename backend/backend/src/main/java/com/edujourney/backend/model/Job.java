@@ -7,8 +7,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Job {
     
         private String title;
-        private String description;
+        private String location;
         private String company;
+        private String workplaceType;
+        private String jobType;
+        private String description;
+
     
         // Getters
         
@@ -16,13 +20,25 @@ public class Job {
         public String getTitle() {
             return title;
         }
-    
-        public String getDescription() {
-            return description;
+
+        public String getLocation() {
+            return location;
         }
-    
+        
         public String getCompany() {
             return company;
+        }
+
+        public String getWorkplaceType() {
+            return workplaceType;
+        }
+
+        public String getJobType() {
+            return jobType;
+        }
+
+        public String getDescription() {
+            return description;
         }
     
         // Setters
@@ -31,11 +47,23 @@ public class Job {
             this.title = title;
         }
     
-        public void setDescription(String description) {
-            this.description = description;
+        public void setLocation(String location) {
+            this.location = location;
         }
-    
+        
         public void setCompany(String company) {
             this.company = company;
+        }
+
+        public void setWorkplaceType(String workplaceType) {
+            this.workplaceType = workplaceType;
+        }
+
+        public void setJobType(String jobType) {
+            this.jobType = jobType;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
     }
