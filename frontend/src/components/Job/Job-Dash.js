@@ -32,7 +32,7 @@ export default function JobDash() {
             <h1>Job Dash</h1>
             <p>Welcome to the Job Dashboard!</p>
 
-            <Stack direction="row" spacing={2} sx={{ marginBottom: 2 }}>
+            <Stack direction="column" spacing={2} sx={{ marginBottom: 2 }}>
                 {jobs.map((job) => (
                     <Box key={job.id} sx={{backgroundColor:'#eee', width:400, height:450, borderRadius:5}}>
                         <Box sx={{alignItems:'center', display:'flex', flexDirection:'column', margin:2 }}>
