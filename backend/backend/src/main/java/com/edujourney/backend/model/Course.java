@@ -11,6 +11,7 @@ public class Course {
     private String instructor;
     private String duration;
     private String level;
+    private String keywords;
 
     // Getters
     public String getTitle() {
@@ -33,6 +34,10 @@ public class Course {
         return level;
     }
 
+    public String getKeywords() {
+        return keywords;
+    }
+
     // Setters
     public void setTitle(String title) {
         this.title = title;
@@ -52,6 +57,10 @@ public class Course {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
 }
