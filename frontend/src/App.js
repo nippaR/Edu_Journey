@@ -10,6 +10,7 @@ import JobCreate from './components/Job/jobCreate';
 import JobCreate2 from './components/Job/JobCreate2';
 import JobCreate3 from './components/Job/JobCreate3';
 import CourseDash from './components/Course/CourseDash';
+import CourseCreate from './components/Course/CourseCreate';
 
 
 
@@ -43,6 +44,7 @@ function MainContent() {
           <Route path="/jobCreate" element={<JobCreate />} />
           <Route path="/jobCreate2" element={<JobCreate2 />} />
           <Route path="/jobCreate3" element={<JobCreate3 />} />
+          <Route path="/courseCreate" element={<CourseCreate />} />
         </Routes>
       </>
     
