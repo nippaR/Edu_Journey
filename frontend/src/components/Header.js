@@ -15,7 +15,7 @@ function Header() {
   };
 
   const linkStyle = {
-    margin: '0 1rem' // Adjust the margin as needed
+    margin: '0 1rem'  // Adjust the margin as needed
   };
 
   const profileIconStyle = {
@@ -41,7 +41,9 @@ function Header() {
         <Link to="/jobdash" style={linkStyle}>Jobs</Link>
         <Link to="/coursedash" style={linkStyle}>Courses</Link>
         <Link to="/login" style={linkStyle}>Logout</Link>
+
       </nav>
+      
     </header>
   );
 }
