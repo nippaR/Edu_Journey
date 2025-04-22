@@ -1,9 +1,14 @@
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+
 
 export default function CourseDash() {
+
+    const  navigate = useNavigate();
 
     const [courses, setCourses] = useState([]);
 
@@ -19,6 +24,11 @@ export default function CourseDash() {
 
     return (
         <Box sx={{ padding: 10 }}>
+
+            <Button variant="outlined" startIcon={<AppRegistrationIcon/>} color="primary" sx={{ marginBottom: 2 }} 
+                    onClick={() => navigate('/courseCreate')}>
+                Create Course
+            </Button>
             <h1>Course Dash</h1>
             <p>Welcome to the Course Dashboard!</p>
 
