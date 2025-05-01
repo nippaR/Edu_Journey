@@ -56,7 +56,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 // Permit access to signup, login, and logout endpoints
-                .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout", "/api/job", "/api/course").permitAll()
+                .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout","/api/posts/**", "/api/job", "/api/course").permitAll()
                 // All other endpoints require authentication
                 .anyRequest().authenticated()
             )
