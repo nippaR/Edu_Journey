@@ -5,7 +5,7 @@ function Home() {
   return (
     <div>
       <h2>Welcome to Edu Journey!</h2>
-      <p>This is your home page. You can view posts, create new ones, etc.</p>
+      <p>This is your home page.</p>
     </div>
   );
 }
