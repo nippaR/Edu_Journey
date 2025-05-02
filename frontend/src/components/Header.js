@@ -38,6 +38,7 @@ function Header() {
             style={profileIconStyle} 
           />
         </Link>
+        <Link to="/post" style={linkStyle}>Posts</Link>
         <Link to="/jobdash" style={linkStyle}>Jobs</Link>
         <Link to="/coursedash" style={linkStyle}>Courses</Link>
         <Link to="/login" style={linkStyle}>Logout</Link>
