@@ -56,8 +56,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 // Permit access to signup, login, and logout endpoints
-                .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout","/api/posts/**", "/api/job", "/api/course").permitAll()
+                .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout","/api/notifications/**","/api/posts/**", "/api/job", "/api/course").permitAll()
                 // All other endpoints require authentication
+                .requestMatchers("/api/posts/**").authenticated()
+                .requestMatchers("/api/notifications/**").authenticated()
                 .anyRequest().authenticated()
             )
             // Disable default form login so that your custom REST login endpoint is used
