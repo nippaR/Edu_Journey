@@ -61,6 +61,7 @@ const onSubmit = async (e) => {
                     name="title"
                     value={title}
                     onChange={onInputChange}
+                    required
                     sx={{
                     width: 450,
                     marginRight: 2,

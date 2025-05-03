@@ -15,6 +15,7 @@ import CourseDash from './components/Course/CourseDash';
 import CourseCreate from './components/Course/CourseCreate';
 import Home from './components/Home';
 import Notifications from './components/Notifications';
+import CourseEdit from './components/Course/CourseEdit';
 
 
 
@@ -53,6 +54,7 @@ function MainContent() {
           <Route path="/jobCreate3" element={<JobCreate3 />} />
           <Route path="/courseCreate" element={<CourseCreate />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path='/courseEdit/:id' element={<CourseEdit />} />
         </Routes>
       </>
     
