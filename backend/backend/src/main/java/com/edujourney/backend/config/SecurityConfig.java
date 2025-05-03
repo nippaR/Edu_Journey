@@ -58,9 +58,14 @@ public class SecurityConfig {
                 // Permit access to signup, login, and logout endpoints
                 .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout","/api/notifications/**","/api/posts/**", "/api/job", "/api/course").permitAll()
                 // All other endpoints require authentication
-                .requestMatchers("/api/posts/**").authenticated()
-                .requestMatchers("/api/notifications/**").authenticated()
-                .anyRequest().authenticated()
+            //    .requestMatchers("/api/posts/**").authenticated()
+            //    .requestMatchers("/api/notifications/**").authenticated()
+            //    .anyRequest().authenticated()
+            //    .requestMatchers("/api/**").authenticated()
+                           // Public: signup, login, logout
+            //   .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout").permitAll()
+               // All other /api/** endpoints require an authenticated user
+               .requestMatchers("/api/**").authenticated()
             )
             // Disable default form login so that your custom REST login endpoint is used
             .formLogin(form -> form.disable())
