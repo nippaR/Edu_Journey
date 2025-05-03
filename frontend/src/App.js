@@ -16,6 +16,7 @@ import CourseCreate from './components/Course/CourseCreate';
 import Home from './components/Home';
 import Notifications from './components/Notifications';
 import CourseEdit from './components/Course/CourseEdit';
+import JobEdit from './components/Job/JobEdit';
 
 
 
@@ -55,6 +56,7 @@ function MainContent() {
           <Route path="/courseCreate" element={<CourseCreate />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path='/courseEdit/:id' element={<CourseEdit />} />
+          <Route path='/jobEdit/:id' element={<JobEdit />} />
         </Routes>
       </>
     

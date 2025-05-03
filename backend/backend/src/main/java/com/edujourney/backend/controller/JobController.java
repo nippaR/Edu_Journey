@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.security.Principal;                                    // ← added
-import org.springframework.http.ResponseEntity;                   // ← added
 import org.springframework.http.HttpStatus;                       // ← added
 
 

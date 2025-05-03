@@ -50,7 +50,7 @@ export default function JobDash() {
                         </Box>
                         <Box sx={{display:'flex', justifyContent:'space-around', marginBottom:2 }}>
                         <Button variant="contained" color="primary" onClick={() => alert(`Applied to ${job.title}`)}> Apply Now </Button>
-                        <Button variant="outlined" color="secondary" onClick={() => alert(`Saved ${job.title}`)}> Edit </Button>
+                        <Button variant="outlined" color="secondary" onClick={() => navigate(`/jobEdit/${job.id}`)}> Edit </Button>
                         <Button variant='contained' color='error' onClick={() => deleteJob(job.id)}> Delete </Button>
                         </Box>
                     </Box>

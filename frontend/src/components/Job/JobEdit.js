@@ -1,6 +1,6 @@
 import { Box, Stack, TextField, Typography, MenuItem, Button } from '@mui/material';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 // import JobCreate3 from './JobCreate3';
 import axios from 'axios';
 
@@ -15,7 +15,7 @@ const jobsType = [
     { value: 'partTime', label: 'Part-Time' }
 ];
 
-export default function JobCreate2() {
+export default function JobEdit() {
 const [job, setJob] = useState({
     title: '',
     company: '',
@@ -27,6 +27,8 @@ const [job, setJob] = useState({
 
 const navigate = useNavigate();
 
+const {id} = useParams();
+
 const { title, company, location, workplaceType, jobType, description } = job;
 
 const onInputChange = (e) => {
@@ -35,17 +37,17 @@ const onInputChange = (e) => {
 
 const onSubmit = async (e) => {
     e.preventDefault();
-//    await axios.post('http://localhost:8081/api/job', job);
-    // ← include credentials so Spring Security sees your logged-in user
-
-    await axios.post(
-        'http://localhost:8081/api/job',
-        job,
-        { withCredentials: true }          // ← make sure the session cookie goes
-    );
-
+    await axios.put(`http://localhost:8081/api/job/${id}`, job);
     navigate('/jobdash');
 };
+
+const loadJob = async () => {
+    const result = await axios.get(`http://localhost:8081/api/job/${id}`)
+    setJob(result.data);
+}
+useEffect(() => {
+    loadJob();
+}, []);
 
 
 
