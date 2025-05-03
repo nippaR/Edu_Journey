@@ -85,6 +85,7 @@ const onSubmit = async (e) => {
                     name="company"
                     value={company}
                     onChange={onInputChange}
+                    required
                     sx={{
                     width: 450,
                     my: 5,
@@ -103,6 +104,7 @@ const onSubmit = async (e) => {
                     variant="filled"
                     value={workplaceType}
                     onChange={onInputChange}
+                    required
                     sx={{ width: 450, marginLeft: 10 }}
                 >
                     {currencies.map((option) => (
@@ -119,6 +121,7 @@ const onSubmit = async (e) => {
                     name="location"
                     value={location}
                     onChange={onInputChange}
+                    required
                     sx={{ width: 450, marginLeft: 10 }}
                 />
                 </Stack>
@@ -132,6 +135,7 @@ const onSubmit = async (e) => {
                 variant="filled"
                 value={jobType}
                 onChange={onInputChange}
+                required
                 sx={{ width: 450, marginLeft: 10, my: 5 }}
                 >
                 {jobsType.map((option) => (
@@ -152,6 +156,7 @@ const onSubmit = async (e) => {
                     variant="filled"
                     value={description}
                     onChange={onInputChange}
+                    required
                     sx={{
                     width: 950,
                     marginRight: 2,
