@@ -1,11 +1,14 @@
 package com.edujourney.backend.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "courses")
 
 public class Course {
-    
+
+    @Id
+    private String id; // Assuming you have an ID field, even if not explicitly shown in the original code
     private String title;
     private String description;
     private String instructor;
@@ -14,6 +17,11 @@ public class Course {
     private String keywords;
 
     // Getters
+
+    public String getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -39,6 +47,11 @@ public class Course {
     }
 
     // Setters
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

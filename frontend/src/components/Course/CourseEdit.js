@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {Box, Typography, Grid, TextField, Stack, Button} from '@mui/material'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
-export default function CourseCreate() {
+export default function CourseEdit() {
 
     const navigate = useNavigate();
     const handleRefresh = () => {
@@ -20,6 +20,8 @@ export default function CourseCreate() {
         level:''
     })
 
+    const { id } = useParams();
+
     const { title, instructor, description, duration, keywords, level } = course;
 
     const onInputChange = (e) => {
@@ -28,15 +30,17 @@ export default function CourseCreate() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-    //    await axios.post('http://localhost:8081/api/course', course);
-            // ← send the session cookie so Principal is populated
-        await axios.post(
-          'http://localhost:8081/api/course',
-          course,
-          { withCredentials: true }    
-        );
+        await axios.put(`http://localhost:8081/api/course/${id}`, course);
         navigate('/coursedash');
     }
+
+    const loadCourse = async () => {
+        const result = await axios.get(`http://localhost:8081/api/course/${id}`)
+        setCourse(result.data);
+    }
+    useEffect(() => {
+        loadCourse();
+    }, []);
 
     return (
         <Grid>
@@ -108,7 +112,6 @@ export default function CourseCreate() {
                     name="description"
                     value={description}
                     color='success'
-                    rows={5}
                     onChange={onInputChange}
                     required
                     sx={{

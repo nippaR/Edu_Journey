@@ -56,7 +56,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 // Permit access to signup, login, and logout endpoints
-                .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout","/api/notifications/**","/api/posts/**", "/api/job", "/api/course").permitAll()
+                .requestMatchers("/api/auth/signup", "/api/auth/login", "/logout","/api/notifications/**","/api/posts/**", "/api/job/**", "/api/course/**").permitAll()
                 // All other endpoints require authentication
             //    .requestMatchers("/api/posts/**").authenticated()
             //    .requestMatchers("/api/notifications/**").authenticated()
@@ -72,7 +72,7 @@ public class SecurityConfig {
             // Enable HTTP Basic authentication
             .httpBasic(Customizer.withDefaults())
             // Always create a session for every request (so that the client gets a session cookie)
-            .sessionManagement(session -> 
+            .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
             )
             // Configure logout explicitly: use /logout as the URL and permit all
