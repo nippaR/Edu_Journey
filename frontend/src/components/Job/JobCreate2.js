@@ -35,7 +35,15 @@ const onInputChange = (e) => {
 
 const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:8081/api/job', job);
+//    await axios.post('http://localhost:8081/api/job', job);
+    // ← include credentials so Spring Security sees your logged-in user
+
+    await axios.post(
+        'http://localhost:8081/api/job',
+        job,
+        { withCredentials: true }          // ← make sure the session cookie goes
+    );
+
     navigate('/jobdash');
 };
 

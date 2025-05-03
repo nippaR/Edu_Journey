@@ -28,7 +28,13 @@ export default function CourseCreate() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:8081/api/course', course);
+    //    await axios.post('http://localhost:8081/api/course', course);
+            // ← send the session cookie so Principal is populated
+        await axios.post(
+          'http://localhost:8081/api/course',
+          course,
+          { withCredentials: true }    
+        );
         navigate('/coursedash');
     }
 
