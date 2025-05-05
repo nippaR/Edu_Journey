@@ -91,7 +91,7 @@ export default function Posts() {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <h2 style={styles.title}>Posts </h2>
+        <h2 style={styles.title}>Posts feed </h2>
         <Link to="/posts/new" style={styles.newPostLink}>
           <AddBoxIcon fontSize="large" style={{ marginRight: 4 }} />
           New Post
