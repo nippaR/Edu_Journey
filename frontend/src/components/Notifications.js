@@ -109,7 +109,7 @@ export default function Notifications() {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>My Notifications</h2>
+      <h2 style={styles.header}>My Notifications Panel</h2>
       {error && <div style={styles.error}>{error}</div>}
 
       {notifications.length === 0 ? (
