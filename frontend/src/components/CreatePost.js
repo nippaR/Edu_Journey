@@ -23,7 +23,7 @@ export default function CreatePost() {
 
   return (
     <div style={{ maxWidth: 600, margin: '2rem auto' }}>
-      <h2>Create New Post</h2>
+      <h2>Add New Post</h2>
       <form onSubmit={handleSubmit}>
         <textarea
           value={description}
