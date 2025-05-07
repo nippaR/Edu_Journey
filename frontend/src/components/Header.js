@@ -1,53 +1,51 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
-import ProfileIconStyle from './ProfileIcon';
 
 function Header() {
+  const headerStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '1rem',
+    backgroundColor: '#f5f5f5'
+  };
+
+  const navStyle = {
+    fontSize: '1rem'
+  };
+
+  const linkStyle = {
+    margin: '0 1rem'  // Adjust the margin as needed
+  };
+
+  const profileIconStyle = {
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    cursor: 'pointer',
+    marginRight: '1rem'
+  };
+
   return (
-    <header>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1rem 2rem',
-          backgroundColor: '#fff',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        }}
-      >
-        {/* Left side: Logo/Title */}
-
-        <Link to="/home" style={{ textDecoration: 'none' }}>
-        <Typography
-          variant="h4"
-          sx={{
-            color: '#0f69d9',
-            fontWeight: 'semi-bold',
-            fontFamily: 'Poppins',
-          }}
-        >
-          Edu Journey
-        </Typography>
+    <header style={headerStyle}>
+      <h1>Edu Journey</h1>
+      <nav style={navStyle}>
+        <Link to="/home" style={linkStyle}>Home</Link>
+        <Link to="/profile" style={linkStyle}>
+          <img 
+            src="https://via.placeholder.com/40" 
+            alt="Profile" 
+            style={profileIconStyle} 
+          />
         </Link>
+        <Link to="/notifications">Notifications</Link> 
+        <Link to="/post" style={linkStyle}>Posts</Link>
+        <Link to="/jobdash" style={linkStyle}>Jobs</Link>
+        <Link to="/coursedash" style={linkStyle}>Courses</Link>
+        <Link to="/login" style={linkStyle}>Logout</Link>
 
-        {/* Right side: Navigation */}
-        <Stack direction="row" spacing={3} alignItems="center">
-          <Link to="/post" style={navLinkStyle}>Posts</Link>
-          <Link to="/jobdash" style={navLinkStyle}>Jobs</Link>
-          <Link to="/coursedash" style={navLinkStyle}>Courses</Link>
-
-          <Link to="/notifications">
-            <IconButton>
-              <NotificationsIcon />
-            </IconButton>
-          </Link>
-
-          <ProfileIconStyle />
-
-        </Stack>
-      </Box>
+      </nav>
+      
     </header>
   );
 }

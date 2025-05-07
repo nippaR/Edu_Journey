@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notifications")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class NotificationController {
 
     @Autowired
@@ -20,6 +21,13 @@ public class NotificationController {
     @GetMapping
     public List<Notification> list(Principal principal) {
         return notificationRepository.findByUserEmail(principal.getName());
+    }
+
+    // NEW: return only the count of unread notifications
+    @GetMapping("/unread/count")
+    public ResponseEntity<Integer> getUnreadCount(Principal principal) {
+        int cnt = notificationRepository.countByUserEmailAndReadFalse(principal.getName());
+        return ResponseEntity.ok(cnt);
     }
 
     // 2. Get one notification by ID (only if it belongs to the user)
