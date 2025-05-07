@@ -50,4 +50,12 @@ function Header() {
   );
 }
 
+// Inline style for links
+const navLinkStyle = {
+  textDecoration: 'none',
+  color: '#4a148c',
+  fontFamily: 'Poppins',
+  fontSize: '1.1rem',
+};
+
 export default Header;

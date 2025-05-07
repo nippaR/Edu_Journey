@@ -10,13 +10,40 @@ export default function Notifications() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8081/api/notifications', { credentials: 'include' })
-      .then(res => {
+    const loadAndMarkRead = async () => {
+      try {
+        // 1) Load all notifications
+        const res = await fetch(
+          'http://localhost:8081/api/notifications',
+          { credentials: 'include' }
+        );
         if (!res.ok) throw new Error(`Status ${res.status}`);
-        return res.json();
-      })
-      .then(setNotifications)
-      .catch(err => setError('Failed to load: ' + err.message));
+        const list = await res.json();
+        setNotifications(list);
+
+        // 2) Mark all unread as read on the server
+        const unread = list.filter(n => !n.read);
+        await Promise.all(
+          unread.map(n =>
+            fetch(`http://localhost:8081/api/notifications/${n.id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({ read: true })
+            })
+          )
+        );
+
+        // 3) Reflect the change locally so the UI shows them as read
+        setNotifications(prev =>
+          prev.map(n => (n.read ? n : { ...n, read: true }))
+        );
+      } catch (err) {
+        setError('Failed to load: ' + err.message);
+      }
+    };
+
+    loadAndMarkRead();
   }, []);
 
   const toggleRead = (id, currentlyRead) => {
