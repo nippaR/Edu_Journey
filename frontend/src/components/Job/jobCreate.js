@@ -10,6 +10,10 @@ export default function JobCreate() {
         window.location.reload();
     }
 
+    const onSubmit = async (e) => {
+        e.preventDefault();
+    }
+
     return (
         <Box>
             <Typography variant='h1' sx={{textAlign:'center', marginTop:10, fontSize:65, fontFamily:'poppins', fontWeight:450}}>
@@ -19,17 +23,19 @@ export default function JobCreate() {
                 80% jobs get qualified applicant in one day
             </Typography>
 
-
+            <form onSubmit={(e) => onSubmit(e)}>
             <Box sx={{display:'flex', justifyContent:'center', marginTop:5, flexDirection:'column', alignItems:'center'}}>
 
                 <TextField
                     id="outlined-basic"
                     label="Job Title"
                     variant="outlined"
+                    required
                     sx={{width:450, marginRight:2}}
                 />
 
                 <Button variant="contained" color="primary" sx={{height:45, width:350, fontSize:20, fontFamily:'poppins', fontWeight:450, marginTop:3, borderRadius:3}}
+                        type='submit'
                         onClick={() => {
                             navigate('/jobCreate2');
                             handleRefresh();
@@ -38,7 +44,7 @@ export default function JobCreate() {
                     Post on my own
                 </Button>
             </Box>
-
+            </form>
             <Typography variant='h6' sx={{textAlign:'center', marginTop:5, fontSize:13, fontFamily:'poppins', fontWeight:450}}>
                 Limits may apply to free job post <Link to={'/profile'}>  LearnMore</Link>
             </Typography>

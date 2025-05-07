@@ -17,6 +17,8 @@ import Home from './components/Home';
 import Notifications from './components/Notifications';
 import CourseEdit from './components/Course/CourseEdit';
 import JobEdit from './components/Job/JobEdit';
+import ProfileIconStyle from './components/ProfileIcon';
+import CourseView from './components/Course/CourseView';
 
 
 
@@ -57,6 +59,8 @@ function MainContent() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path='/courseEdit/:id' element={<CourseEdit />} />
           <Route path='/jobEdit/:id' element={<JobEdit />} />
+          <Route path='/profileicone' element={<ProfileIconStyle />} />
+          <Route path='/courseview/:id' element={<CourseView />} />
         </Routes>
       </>
     
