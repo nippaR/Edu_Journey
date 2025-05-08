@@ -51,7 +51,7 @@ export default function CourseEdit() {
                     Share your knowledge  <br /> with our community
                 </Typography>
                 <Typography variant='h6' sx={{ textAlign: 'center', mt: 1, fontSize: 16, fontFamily: 'poppins', fontWeight: 450 }}>
-                    80% jobs get qualified applicant in one day
+                    80% jobs get qualified applicant in one day.
                 </Typography>
             </Box>
 
@@ -125,9 +125,9 @@ export default function CourseEdit() {
                     label="Duration"
                     variant="filled"
                     name="duration"
+                    required
                     value={duration}
                     color='success'
-                    required
                     onChange={onInputChange}
                     sx={{
                         width: 450,

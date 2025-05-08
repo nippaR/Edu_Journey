@@ -52,8 +52,8 @@ export default function CourseCreate() {
             </Box>
 
             <Box>
-                <Typography sx={{ ml: 2, mt: 5, fontSize: 10, fontFamily: 'poppins', fontWeight: 450 }}>
-                    * indicates required field
+                <Typography sx={{ mt: 5, ml: 2, fontSize: 10, fontFamily: 'poppins', fontWeight: 450 }}>
+                    *indicates required field
                 </Typography>
         </Box>
 
