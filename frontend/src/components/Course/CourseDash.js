@@ -60,9 +60,9 @@ export default function CourseDash() {
             </Stack>
             </Box>
             <Box sx={{paddingLeft:5, paddingBottom:10}}>
-            <Stack direction="row" spacing={1} sx={{ mt:5,ml:10,gap: 2, ml: 5, flexWrap: 'wrap' }}>
+            <Stack direction="row" spacing={1} sx={{ mt:5,gap: 2, ml: 5, flexWrap: 'wrap' }}>
                 {courses.map((course) => (
-                    <Box key={course.id} sx={{ backgroundColor: '#eee', width: 400, height: 350, borderRadius: 5 }}>
+                    <Box key={course.id} sx={{ backgroundColor: '#e3f3fe', width: 400, height: 350, borderRadius: 5 }}>
                         <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', margin: 2 }}>
                             <h2>{course.title}</h2>
                             <p>{course.description}</p>
