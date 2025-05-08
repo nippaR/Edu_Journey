@@ -28,7 +28,7 @@ import org.springframework.http.HttpStatus;
 
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("http://localhost:3000") // Allow requests from React app
 @RequestMapping("/api")
 
 public class CourseController {
@@ -45,12 +45,7 @@ public class CourseController {
     @Autowired
     private NotificationRepository notificationRepository;
     
-    //@PostMapping("/api/course")
-    
-    //Course newCourse (@RequestBody Course newCourse) {
-    //    return courseRepository.save(newCourse);
-
-    //}
+   
 
         @PostMapping("/api/course")
     public ResponseEntity<Course> newCourse(
@@ -75,13 +70,16 @@ public class CourseController {
         return courseRepository.findAll();
     }
     
-    
+    // Get courses by id
+
     @GetMapping("/course/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable String id) {
         return courseRepository.findById(id)
                 .map(course -> ResponseEntity.ok(course))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    // Get courses by instructor
 
     @PutMapping("/course/{id}")
     public String updateCourse(@PathVariable String id, @RequestBody Course updateCourse) {
@@ -100,7 +98,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/course/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable String id) {
+    public ResponseEntity<Void> deleteCourse(@PathVariable String id ) {
         return courseRepository.findById(id)
                 .map(course -> {
                     courseRepository.delete(course);
