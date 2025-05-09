@@ -35,11 +35,11 @@ public class CourseController {
     
     @Autowired
     private CourseRepository courseRepository;
-    @PostMapping("/course")
+    // @PostMapping("/course")
     
-    Course newCourse (@RequestBody Course newCourse) {
-        return courseRepository.save(newCourse);
-    }
+    // Course newCourse (@RequestBody Course newCourse) {
+    //     return courseRepository.save(newCourse);
+    // }
 
        // Auto-trigger notifications
     @Autowired
@@ -47,7 +47,8 @@ public class CourseController {
     
    
 
-        @PostMapping("/api/course")
+        // @PostMapping("/api/course")
+        @PostMapping("/course")
     public ResponseEntity<Course> newCourse(
         @RequestBody Course newCourse,
         Principal principal                                     // ← added
