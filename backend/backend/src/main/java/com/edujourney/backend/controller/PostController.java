@@ -1,91 +1,133 @@
+// src/main/java/com/edujourney/backend/controller/PostController.java
 package com.edujourney.backend.controller;
 
 import com.edujourney.backend.model.Post;
 import com.edujourney.backend.model.Notification;
 import com.edujourney.backend.repository.PostRepository;
 import com.edujourney.backend.repository.NotificationRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal; 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
+    private final Path UPLOAD_DIR = Paths.get("uploads");
+
     @Autowired
     private PostRepository postRepository;
 
-       // Auto-trigger notifications
     @Autowired
     private NotificationRepository notificationRepository;
 
-    // 1. Create a new post
-    @PostMapping
-    //public Post createPost(@RequestBody Post post) {
-    //    return postRepository.save(post);
-       public ResponseEntity<Post> createPost(
-       @RequestBody Post post,
-       Principal principal
-   ) {
-       // 1) Save the post
-       Post savedPost = postRepository.save(post);
-
-       // 2) Create a notification for the current user
-       String userEmail = principal.getName();
-       String msg = "Your new post: \"" + post.getDescription() + "\" has been created.";
-      // Notification note = new Notification(userEmail, msg);
-       //notificationRepository.save(note);
-
-       Notification note = new Notification(userEmail, msg);
-       Notification savedNote = notificationRepository.save(note);
-       System.out.println("Saved notification id=" + savedNote.getId()
-       + " message=\"" + savedNote.getMessage() + "\" for user=" + userEmail);
-
-       return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
+    public PostController() throws Exception {
+        Files.createDirectories(UPLOAD_DIR.resolve("images"));
+        Files.createDirectories(UPLOAD_DIR.resolve("docs"));
     }
 
-    // 2. Read all posts
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Post> createPost(
+        @RequestPart("description") String description,
+        @RequestPart(value = "image", required = false) MultipartFile image,
+        @RequestPart(value = "document", required = false) MultipartFile document,
+        Principal principal
+    ) throws Exception {
+        String imageUrl = null, docUrl = null;
+        if (image != null && !image.isEmpty()) {
+            String ext = StringUtils.getFilenameExtension(image.getOriginalFilename());
+            String filename = UUID.randomUUID() + "." + ext;
+            Path target = UPLOAD_DIR.resolve("images").resolve(filename);
+            Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+            imageUrl = "/uploads/images/" + filename;
+        }
+        if (document != null && !document.isEmpty()) {
+            String ext = StringUtils.getFilenameExtension(document.getOriginalFilename());
+            String filename = UUID.randomUUID() + "." + ext;
+            Path target = UPLOAD_DIR.resolve("docs").resolve(filename);
+            Files.copy(document.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+            docUrl = "/uploads/docs/" + filename;
+        }
+
+        String author = principal.getName();
+        Post post = new Post(description, author, imageUrl, docUrl);
+        Post savedPost = postRepository.save(post);
+
+        String postDesc = savedPost.getDescription();
+        String msg = String.format("Your new post: \"%s\" has been created.", postDesc);
+        Notification note = new Notification(author, msg);
+        notificationRepository.save(note);
+
+        return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
+    }
+
+    /**
+     * Returns only the posts created by the currently logged-in user
+     */
+    @GetMapping("/mine")
+    public List<Post> getMyPosts(Principal principal) {
+        // Log which user invoked the /mine endpoint
+        System.out.println("getMyPosts called by user: " + principal.getName());
+        return postRepository.findByAuthor(principal.getName());
+    }
+
+    /**
+     * All-posts endpoint is now restricted; ordinary users cannot access it
+     */
+    @Deprecated
     @GetMapping
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public ResponseEntity<Void> getAllPosts() {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-    // 3. Read a single post by ID
+        /**
+     * Returns a single post only if it belongs to the current user
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable String id) {
+    public ResponseEntity<Post> getPostById(@PathVariable String id, Principal principal) {
         return postRepository.findById(id)
-                .map(post -> ResponseEntity.ok(post))
-                .orElse(ResponseEntity.notFound().build());
+            .filter(post -> post.getAuthor().equals(principal.getName()))
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
     }
 
-    // 4. Update an existing post
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(
-            @PathVariable String id,
-            @RequestBody Post updatedPost
+        @PathVariable String id,
+        @RequestBody Post updatedPost,
+        Principal principal
     ) {
         return postRepository.findById(id)
-                .map(post -> {
-                    post.setDescription(updatedPost.getDescription());
-                    // (update other fields here if you add more)
-                    Post saved = postRepository.save(post);
-                    return ResponseEntity.ok(saved);
-                })
-                .orElse(ResponseEntity.notFound().build());
+            .filter(post -> post.getAuthor().equals(principal.getName()))
+            .map(post -> {
+                post.setDescription(updatedPost.getDescription());
+                Post saved = postRepository.save(post);
+                return ResponseEntity.ok(saved);
+            })
+            .orElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
     }
 
-    // 5. Delete a post
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable String id) {
+    public ResponseEntity<Void> deletePost(@PathVariable String id, Principal principal) {
         return postRepository.findById(id)
-                .map(post -> {
-                    postRepository.delete(post);
-                    return ResponseEntity.noContent().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+            .filter(post -> post.getAuthor().equals(principal.getName()))
+            .map(post -> {
+                postRepository.delete(post);
+                return ResponseEntity.noContent().<Void>build();
+            })
+            .orElse(ResponseEntity.status(HttpStatus.FORBIDDEN).build());
     }
 }
