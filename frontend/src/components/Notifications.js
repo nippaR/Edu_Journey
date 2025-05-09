@@ -86,7 +86,7 @@ export default function Notifications() {
     },
     header: {
       fontSize: '1.75rem',
-      color: '#333',
+      color: '#00008B',
       marginBottom: '1rem',
     },
     error: {
