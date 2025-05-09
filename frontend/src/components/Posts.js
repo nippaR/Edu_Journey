@@ -1,36 +1,47 @@
 // frontend/src/components/Posts.js
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
+  const location = useLocation();
+
+  // Base URL for your API server
+  const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
   useEffect(() => {
-    fetch('http://localhost:8081/api/posts', { credentials: 'include' })
+    // Clear stale posts whenever route (or login state) changes
+    setPosts([]);
+
+    // Fetch only the current user's posts
+    fetch(`${API_BASE}/api/posts/mine`, { credentials: 'include' })
       .then(res => {
         if (!res.ok) throw new Error(`Status ${res.status}`);
         return res.json();
       })
       .then(setPosts)
       .catch(err => console.error('Error loading posts:', err));
-  }, []);
+  }, [API_BASE, location]);
 
   const handleDelete = id => {
     if (!window.confirm('Delete this post?')) return;
-    fetch(`http://localhost:8081/api/posts/${id}`, {
+    fetch(`${API_BASE}/api/posts/${id}`, {
       method: 'DELETE',
       credentials: 'include'
     })
       .then(res => {
         if (!res.ok) throw new Error(`Status ${res.status}`);
-        setPosts(posts.filter(p => p.id !== id));
+        setPosts(prev => prev.filter(p => p.id !== id));
       })
       .catch(err => console.error('Delete failed:', err));
   };
+
+  // Helper to build full URL for images/docs
+  const buildUrl = path => (path && (path.startsWith('http') ? path : `${API_BASE}${path}`));
 
   // Style objects
   const styles = {
@@ -74,6 +85,25 @@ export default function Posts() {
       color: '#222',
       marginBottom: '1rem'
     },
+    author: {
+      fontSize: '0.85rem',
+      color: '#555',
+      marginBottom: '0.5rem'
+    },
+    image: {
+      maxWidth: '100%',
+      maxHeight: 300,
+      marginBottom: '0.5rem',
+      borderRadius: 4,
+      objectFit: 'cover'
+    },
+    docLink: {
+      display: 'block',
+      marginBottom: '0.5rem',
+      fontSize: '0.9rem',
+      color: '#3182ce',
+      textDecoration: 'underline'
+    },
     actions: {
       display: 'flex',
       gap: '0.5rem'
@@ -91,7 +121,7 @@ export default function Posts() {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <h2 style={styles.title}>Posts </h2>
+        <h2 style={styles.title}>MY POSTS FEED</h2>
         <Link to="/posts/new" style={styles.newPostLink}>
           <AddBoxIcon fontSize="large" style={{ marginRight: 4 }} />
           New Post
@@ -108,17 +138,35 @@ export default function Posts() {
             onMouseEnter={e => Object.assign(e.currentTarget.style, styles.cardHover)}
             onMouseLeave={e => Object.assign(e.currentTarget.style, { boxShadow: styles.card.boxShadow })}
           >
+            <div style={styles.author}>Posted by: {post.author}</div>
+            {post.imageUrl && (
+              <img
+                src={buildUrl(post.imageUrl)}
+                alt="Post"
+                style={styles.image}
+              />
+            )}
             <p style={styles.description}>{post.description}</p>
+            {post.documentUrl && (
+              <a
+                href={buildUrl(post.documentUrl)}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.docLink}
+              >
+                Download Attachment
+              </a>
+            )}
             <div style={styles.actions}>
               <Link to={`/posts/${post.id}/edit`} style={styles.iconButton} title="Edit">
-                <EditIcon color="primary" />
+                <EditOutlinedIcon color="primary" />
               </Link>
               <button
-                style={styles.iconButton}
+                style={styles.iconButton} 
                 onClick={() => handleDelete(post.id)}
                 title="Delete"
               >
-                <DeleteIcon color="error" />
+                <DeleteForeverIcon color="error" />
               </button>
             </div>
           </div>
