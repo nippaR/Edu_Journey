@@ -30,7 +30,7 @@ export default function JobDash() {
         <Grid sx={{ padding: 10 }}>
 
             <Button variant="outlined" startIcon={<AppRegistrationIcon/>} color="primary" sx={{ marginBottom: 2 }} 
-                    onClick={() => navigate('/jobCreate2')}>
+                    onClick={() => navigate('/jobCreate')}>
                 Post a Job
             </Button>
 

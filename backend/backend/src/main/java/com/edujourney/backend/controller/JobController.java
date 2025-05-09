@@ -39,7 +39,7 @@ public class JobController {
     //Job newJob (@RequestBody Job newJob) {
     //    return jobRepository.save(newJob);
    // }
-       @PostMapping("/api/job")
+    @PostMapping("/api/job")
     public ResponseEntity<Job> newJob(
         @RequestBody Job newJob,
         Principal principal                                     // ← added

@@ -1,4 +1,3 @@
-// src/components/Header.js
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -12,7 +11,7 @@ function Header() {
   useEffect(() => {
     const loadUnreadCount = async () => {
       try {
-        // 1) Fetch *all* notifications
+        // 1) Fetch all notifications
         const res = await axios.get(
           'http://localhost:8081/api/notifications',
           { withCredentials: true }
