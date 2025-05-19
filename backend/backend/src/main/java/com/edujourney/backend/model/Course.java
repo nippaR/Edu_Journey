@@ -64,15 +64,12 @@ public class Course {
     public void setInstructor(String instructor) {
         this.instructor = instructor;
     }
-
     public void setDuration(String duration) {
         this.duration = duration;
     }
-
     public void setLevel(String level) {
         this.level = level;
     }
-
     public void setKeywords(String keywords) {
         this.keywords = keywords;
     }
