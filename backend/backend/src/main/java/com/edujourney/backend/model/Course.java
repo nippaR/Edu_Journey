@@ -1,14 +1,8 @@
 package com.edujourney.backend.model;
-
-
 import org.springframework.data.annotation.Id;
-
 import org.springframework.data.mongodb.core.mapping.Document;
-
 @Document(collection = "courses")
-
 public class Course {
-
     @Id
     private String id; // Assuming you have an ID field, even if not explicitly shown in the original code
     private String title;
