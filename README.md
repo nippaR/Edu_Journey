@@ -7,3 +7,4 @@ Edu Journey provides a structured way for students to connect, learn from each o
 
 Frontend Run -: ***npm start***
 Backend Run -: ***mvn spring-boot:run***
+-------------------------------------------------------------------------------------------
