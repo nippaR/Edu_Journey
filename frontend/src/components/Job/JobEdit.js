@@ -38,7 +38,7 @@ const onInputChange = (e) => {
 const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`http://localhost:8081/api/job/${id}`, job);
-    navigate('/jobdash');
+    navigate(`/jobView/${job.id}`);
 };
 
 const loadJob = async () => {

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.security.Principal;                                    // ← added
-import org.springframework.http.HttpStatus;                       // ← added
+import java.security.Principal;
+import org.springframework.http.HttpStatus;
 
 
 
@@ -31,9 +31,8 @@ public class JobController {
     @Autowired
     private JobRepository jobRepository;
 
-        // Auto-trigger notifications
     @Autowired
-    private NotificationRepository notificationRepository;         // ← added
+    private NotificationRepository notificationRepository;
 
     //@PostMapping("/api/job")
     //Job newJob (@RequestBody Job newJob) {
@@ -42,12 +41,12 @@ public class JobController {
     @PostMapping("/api/job")
     public ResponseEntity<Job> newJob(
         @RequestBody Job newJob,
-        Principal principal                                     // ← added
+        Principal principal
     ) {
         // 1) Save the job
         Job saved = jobRepository.save(newJob);
 
-                // 2) Create & save a notification
+        
         String userEmail = principal.getName();
         String msg = "New job posted: \"" + saved.getTitle() + "\"";
         Notification note = new Notification(userEmail, msg);

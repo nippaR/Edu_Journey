@@ -70,6 +70,7 @@ function Login() {
         <form onSubmit={handleFormLogin} style={{ width: '100%' }}>
           <input
             style={inputStyle}
+            name="username"
             type="text"
             placeholder="Email ID or Username"
             value={username}
@@ -78,6 +79,7 @@ function Login() {
           />
           <input
             style={inputStyle}
+            name="password"
             type="password"
             placeholder="Password"
             value={password}
