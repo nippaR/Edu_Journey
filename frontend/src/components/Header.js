@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import axios from 'axios';
+import ProfileIcon from './ProfileIcon';
 
 function Header() {
   const [unreadCount, setUnreadCount] = useState(0);
@@ -32,7 +33,9 @@ function Header() {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '1rem',
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    color:'#048bf1'
   };
   const navStyle = { display: 'flex', alignItems: 'center', fontSize: '1rem' };
   const linkStyle = {
@@ -40,15 +43,11 @@ function Header() {
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
-    color: 'inherit'
+    color: '#0248ac',
+    fontFamiliy:'poppins',
+    fontWieght:'semi-bold'
   };
-  const profileIconStyle = {
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    cursor: 'pointer',
-    marginRight: '1rem'
-  };
+
   const notifIconStyle = { fontSize: '28px', cursor: 'pointer' };
 
   return (
@@ -56,14 +55,6 @@ function Header() {
       <h1>Edu Journey</h1>
       <nav style={navStyle}>
         <Link to="/home" style={linkStyle}>Home</Link>
-
-        <Link to="/profile" style={linkStyle}>
-          <img
-            src="https://via.placeholder.com/40"
-            alt="Profile"
-            style={profileIconStyle}
-          />
-        </Link>
 
         <Link to="/post" style={linkStyle}>Posts</Link>
         <Link to="/jobdash" style={linkStyle}>Jobs</Link>
@@ -80,7 +71,7 @@ function Header() {
           </Badge>
         </Link>
 
-        <Link to="/login" style={linkStyle}>Logout</Link>
+        <ProfileIcon />
       </nav>
     </header>
   );

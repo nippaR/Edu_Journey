@@ -1,0 +1,7 @@
+{
+    "cSpell.words": [
+        "chromedriver",
+        "edgedriver"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
+}

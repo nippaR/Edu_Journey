@@ -19,6 +19,8 @@ import CourseEdit from './components/Course/CourseEdit';
 import JobEdit from './components/Job/JobEdit';
 import ProfileIconStyle from './components/ProfileIcon';
 import CourseView from './components/Course/CourseView';
+import JobView from './components/Job/JobView';
+import Footer from './components/Footer';
 
 
 
@@ -61,7 +63,10 @@ function MainContent() {
           <Route path='/jobEdit/:id' element={<JobEdit />} />
           <Route path='/profileicone' element={<ProfileIconStyle />} />
           <Route path='/courseview/:id' element={<CourseView />} />
+          <Route path='/jobView/:id' element={<JobView />} />
         </Routes>
+        {!isNoHeaderFooterPage && <Footer/>}
+        {/* The Footer component is always visible */}
       </>
     
   );

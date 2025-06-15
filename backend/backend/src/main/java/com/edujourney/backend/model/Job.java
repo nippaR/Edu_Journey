@@ -9,7 +9,7 @@ public class Job {
 
         @Id
 
-        private String id; // Assuming you have an ID field, even if not explicitly shown in the original code
+        private String id;
         private String title;
         private String location;
         private String company;
